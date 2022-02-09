@@ -1,0 +1,54 @@
+# installation
+You can simply install the library from PyPi using pip. For more methods check the docs.
+
+pip install amazoncaptcha
+
+##Quick Snippet
+An example of the constructor usage. Scroll a bit down to see some tasty class methods. For consistency across different devices, it is highly recommended to use fromlink class method.
+
+from amazoncaptcha import AmazonCaptcha
+
+captcha = AmazonCaptcha('captcha.jpg')
+solution = captcha.solve()
+
+# Or: solution = AmazonCaptcha('captcha.jpg').solve()
+
+Usage and Class Methods
+Browsing Amazon using selenium and stuck on captcha? The class method below will do all the dirty work of extracting an image from the webpage for you. Practically, it takes a screenshot from your webdriver, crops the captcha and stores it into bytes array which is then used to create an AmazonCaptcha instance. This also means avoiding any local savings. For consistency across different devices, it is highly recommended to use fromlink class method instead of fromdriver.
+
+from amazoncaptcha import AmazonCaptcha
+from selenium import webdriver
+
+driver = webdriver.Chrome() # This is a simplified example
+driver.get('https://www.amazon.com/errors/validateCaptcha')
+
+captcha = AmazonCaptcha.fromdriver(driver)
+solution = captcha.solve()
+If you are not using selenium or the previous method is not just the case for you, it is possible to use a captcha link directly. This class method will request the url, check the content type and store the response content into bytes array to create an instance of AmazonCaptcha.
+
+from amazoncaptcha import AmazonCaptcha
+
+link = 'https://images-na.ssl-images-amazon.com/captcha/usvmgloq/Captcha_kwrrnqwkph.jpg'
+
+captcha = AmazonCaptcha.fromlink(link)
+solution = captcha.solve()
+In addition, if you are a machine learning or neural network developer and are looking for some training data, check this repository, which was created to store images and other non-script data for the solver.
+
+Help the Development
+If you are willing to help the development, consider setting keep_logs argument of the solve method to True. Here is the example, if you are using fromdriver class method. If set to True, all the links of the unsolved captcha will be stored so that later you can open the issue and send the logs.
+
+from amazoncaptcha import AmazonCaptcha
+from selenium import webdriver
+
+driver = webdriver.Chrome() # This is a simplified example
+driver.get('https://www.amazon.com/errors/validateCaptcha')
+
+captcha = AmazonCaptcha.fromdriver(driver)
+solution = captcha.solve(keep_logs=True)
+If you have any suggestions or ideas of additional instances and methods, which you would like to see in this library, please, feel free to contact the owner via email or fork'n'pull to repository. Any contribution is highly appreciated!
+
+Additional
+If you want to see the History of Changes, Code of Conduct, Contributing Policy, or License, use these inline links to navigate based on your needs.
+If you are facing any errors, please, report your situation via an issue.
+This project is for educational and research purposes only. Any actions and/or activities related to the material contained on this GitHub Repository is solely your responsibility. The author will not be held responsible in the event any criminal charges be brought against any individuals misusing the information in this GitHub Repository to break the law.
+Amazon is the registered trademark of Amazon.com, Inc. Amazon name used in this project is for identification purposes only. The project is not associated in any way with Amazon.com, Inc. and is not an official solution of Amazon.com, Inc
